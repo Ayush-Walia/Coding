@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
 public class dte {
-   public static void main(String args[]){
+	private static Scanner input = new Scanner(System.in);
+	public static void main(String args[]){
 	   System.out.println("         Download Time Estimator:\n");
-	   Scanner input = new Scanner(System.in);
 	   System.out.println("Enter Size of file(MB):");
 	   try { double size = input.nextDouble(); 
 	   System.out.println("Choose unit of your download speed:\n"+
@@ -17,9 +17,9 @@ public class dte {
 	   "8)Megabit(Mb)\n"+
 	   "9)Gigabit(Gb)\n");
 	   String unit = input.next();
-	   System.out.println("Enter Speed:");
-	   double speed = input.nextDouble();
+	   double speed = 0;
 	   if (unit.equals("1") || unit.equals("KB")) {
+           speed = Speed();
 		   double Speed = speed/1000;	   
 		   double time = size/Speed;
 		   if (time > 3600) {
@@ -42,6 +42,7 @@ public class dte {
 		   System.out.println("Estimated Time: " + secs + " secs.");}
        } 
 	   else if (unit.equals("2") || unit.equals("MB")) {	   
+           speed = Speed();
 		   double time = size/speed;
 		   if (time > 3600) {
 			   double hour = time/3600;
@@ -63,6 +64,7 @@ public class dte {
 		   System.out.println("Estimated Time: " + secs + " secs.");}
        }
 	   else if (unit.equals("3") || unit.equals("GB")) {
+           speed = Speed();
 		   double Speed = speed*1000;	   
 		   double time = size/Speed;
 		   if (time > 3600) {
@@ -85,6 +87,7 @@ public class dte {
 		   System.out.println("Estimated Time: " + secs + " secs.");}
        }
 	   else if (unit.equals("4") || unit.equals("KiB")) {
+           speed = Speed();
 		   double Speed = speed*0.001024;	   
 		   double time = size/Speed;
 		   if (time > 3600) {
@@ -107,6 +110,7 @@ public class dte {
 		   System.out.println("Estimated Time: " + secs + " secs.");}
        }
 	   else if (unit.equals("5") || unit.equals("MiB")) {
+           speed = Speed();
 		   double Speed = speed*1.048576;	   
 		   double time = size/Speed;
 		   if (time > 3600) {
@@ -129,6 +133,7 @@ public class dte {
 		   System.out.println("Estimated Time: " + secs + " secs.");}
        }
 	   else if (unit.equals("6") || unit.equals("GiB")) {
+           speed = Speed();
 		   double Speed = speed*1073.741824;	   
 		   double time = size/Speed;
 		   if (time > 3600) {
@@ -151,6 +156,7 @@ public class dte {
 		   System.out.println("Estimated Time: " + secs + " secs.");}
        }
 	   else if (unit.equals("7") || unit.equals("Kb")) {
+           speed = Speed();
 		   double Speed = speed*0.000125;	   
 		   double time = size/Speed;
 		   if (time > 3600) {
@@ -173,6 +179,7 @@ public class dte {
 		   System.out.println("Estimated Time: " + secs + " secs.");}
        }
 	   else if (unit.equals("8") || unit.equals("Mb")) {
+           speed = Speed();
 		   double Speed = speed*0.125;	   
 		   double time = size/Speed;
 		   if (time > 3600) {
@@ -195,6 +202,7 @@ public class dte {
 		   System.out.println("Estimated Time: " + secs + " secs.");}
        }
 	   else if (unit.equals("9") || unit.equals("Gb")) {
+           speed = Speed();
 		   double Speed = speed*125;	   
 		   double time = size/Speed;
 		   if (time > 3600) {
@@ -224,4 +232,9 @@ public class dte {
 		   System.out.println("Invalid Input!");
 	   } 	   
        }  
+   static double Speed () {
+	   System.out.println("Enter Speed:");
+	   double speed = input.nextDouble();	
+	   return speed;
+   }
    }
