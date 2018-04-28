@@ -1,6 +1,3 @@
-/* ********************************************Warning***************************************** */
-/* This is meant ONLY for unix based systems like linux, Mac OS etc,It WILL misbehave on Windows*/
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -32,6 +29,15 @@ void t(int time){
 			   int secs = (int) time;
                printf("%d secs",secs);}
 }
+
+void clear(){
+    #ifdef _WIN32
+    system("cls");
+    #elif defined __linux__
+    system("clear");
+    #endif
+}
+
 void addrecords(struct subscriber *s){
   char key[1];
   while(1){
@@ -40,7 +46,7 @@ void addrecords(struct subscriber *s){
   if(f==NULL){
     f=fopen("bill.txt","w+");
     }
-    system("clear");
+    clear();
     printf("Enter name:");
     scanf("%s",s->name);
     fprintf(f,"%s ",s->name);
@@ -57,12 +63,12 @@ void addrecords(struct subscriber *s){
     scanf("%f",&s->amount);
     fprintf(f,"%.2f\n",s->amount);
     fclose(f);
-    system("clear");
+    clear();
     printf("Record successfully added");
     printf("\nDo you want to add more records(y/n): ");
     scanf("%s",key);
     if(key[0]=='n'){
-            system("clear");
+            clear();
             break;
         }
     }
@@ -72,11 +78,11 @@ void listrecords(struct subscriber *s){
   int i;
   char key[1];
   if((f=fopen("bill.txt","r"))==NULL){
-    system("clear");
+    clear();
     printf("File Doesn't Exists\n");
     }
     else{
-    system("clear");
+    clear();
     printf("Records:\n\n");
     printf("User Name\tPhone Number\tReciever Number\t     Call Duration\tCall Charge\n");
     for(i=0;i<88;i++){
@@ -104,7 +110,7 @@ void listrecords(struct subscriber *s){
     if(key[0]=='n')
     exit(0);
     else
-    system("clear");
+    clear();
     }
 }
 void modifyrecords(struct subscriber *s){
@@ -116,7 +122,7 @@ void modifyrecords(struct subscriber *s){
       exit(0);
     }
     else{
-    system("clear");
+    clear();
     printf("Enter username to be modified:\n");
     scanf("%s",name);
     while((fscanf(f,"%s %s %s %d %f",s->name,s->phonenumber,s->phonenumber2,&s->time,&s->amount))!=-1){
@@ -126,7 +132,7 @@ void modifyrecords(struct subscriber *s){
         }
         }
     rewind(f);
-    system("clear");
+    clear();
     if(!i){
     printf("%d records found!!!",count);
     while((fscanf(f,"%s %s %s %d %f",s->name,s->phonenumber,s->phonenumber2,&s->time,&s->amount))!=-1){
@@ -153,12 +159,12 @@ void modifyrecords(struct subscriber *s){
           fprintf(t,"%s %s %s %d %.2f\n",s->name,s->phonenumber,s->phonenumber2,s->time,s->amount);
           }
       }
-      remove("bill.txt");
-      rename("temp.txt","bill.txt");
-      system("clear");
-      printf("Record successfully Updated!!!\n\n");
       fclose(f);
       fclose(t);
+      remove("bill.txt");
+      rename("temp.txt","bill.txt");
+      clear();
+      printf("Record successfully Updated!!!\n\n");
     }
     else{
         printf("User not found!!!\n\n");
@@ -169,7 +175,7 @@ void modifyrecords(struct subscriber *s){
     if(key[0]=='n')
     exit(0);
     else
-    system("clear");
+    clear();
     }
 }
 void deleterecords(struct subscriber *s){
@@ -182,7 +188,7 @@ void deleterecords(struct subscriber *s){
       if((f=fopen("bill.txt","r"))==NULL){
       printf("Error!! bill.txt can't be accessed.");
       exit(0);}
-      system("clear");
+      clear();
       printf("Enter the Name of the User to be deleted:\n");
       scanf("%s",name);
       while((fscanf(f,"%s %s %s %d %f",s->name,s->phonenumber,s->phonenumber2,&s->time,&s->amount))!=-1){
@@ -195,44 +201,44 @@ void deleterecords(struct subscriber *s){
           }
       }
       if(i==1){
-        system("clear");
+        clear();
         printf("User \"%s\" not found\n\n",name);
-        remove("temp.txt");
         fclose(f);
         fclose(t);
+        remove("temp.txt");
         printf("Do you want to go back to Main Menu?(y/n):\n");
         scanf("%s",key);
         if(key[0]=='n')
         exit(0);
         else
-        system("clear");
+        clear();
       }
       else{
-      remove("bill.txt");
-      rename("temp.txt","bill.txt");
-      system("clear");
-      printf("User %s Successfully Deleted!!!!\n\n",name);
       fclose(f);
       fclose(t);
+      remove("bill.txt");
+      rename("temp.txt","bill.txt");
+      clear();
+      printf("User %s Successfully Deleted!!!!\n\n",name);
       printf("Do you want to go back to Main Menu?(y/n):\n");
       scanf("%s",key);
       if(key[0]=='n')
       exit(0);
       else
-      system("clear");
+      clear();
       }
 }
 void payment(struct subscriber *s){
   FILE *f;
   int i=1,time=0;
-  float sum;
+  float sum=0;
   char key[1],name[20];
   if((f=fopen("bill.txt","r"))==NULL){
-    system("clear");
+    clear();
     printf("File Doesn't Exists\n");
     }
     else{
-    system("clear");
+    clear();
     printf("Enter username to generate bill:\n");
     scanf("%s",name);
     while((fscanf(f,"%s %s %s %d %f",s->name,s->phonenumber,s->phonenumber2,&s->time,&s->amount))!=-1){
@@ -243,7 +249,7 @@ void payment(struct subscriber *s){
         }
         }
     rewind(f);
-    system("clear");
+    clear();
     if(!i){
     printf("Bill:\n\n");
     printf("User Name\tPhone Number\tTotal Call Duration     Total Charge\n");
@@ -278,7 +284,7 @@ void payment(struct subscriber *s){
     if(key[0]=='n')
     exit(0);
     else
-    system("clear");
+    clear();
     }
 }
 void searchrecords(struct subscriber *s){
@@ -286,11 +292,11 @@ void searchrecords(struct subscriber *s){
   int i=1;
   char key[1],name[20];
   if((f=fopen("bill.txt","r"))==NULL){
-    system("clear");
+    clear();
     printf("File Doesn't Exists\n");
     }
     else{
-    system("clear");
+    clear();
     printf("Enter username to be searched:\n");
     scanf("%s",name);
     while((fscanf(f,"%s %s %s %d %f",s->name,s->phonenumber,s->phonenumber2,&s->time,&s->amount))!=-1){
@@ -300,7 +306,7 @@ void searchrecords(struct subscriber *s){
         }
         }
     rewind(f);
-    system("clear");
+    clear();
     if(!i){
     printf("Records:\n\n");
     printf("User Name\tPhone Number\tReciever Number\t     Call Duration\tCall Charge\n");
@@ -336,7 +342,7 @@ void searchrecords(struct subscriber *s){
     if(key[0]=='n')
     exit(0);
     else
-    system("clear");
+    clear();
     }
 }
 
@@ -369,7 +375,7 @@ int main(){
         exit(0);
         break;
       default:
-        system("clear");
+        clear();
         printf("Incorrect Input,Try again.\n");
     }
   }
