@@ -5,12 +5,37 @@ using namespace std;
 int input;
 char arr[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
+int main();
+
+void printc(char c){
+    if(c=='X')
+    cout<<"\033[36m"<<"\033[1m"<<c<<"\033[0m";
+    else if(c=='O')
+    cout<<"\033[32m"<<"\033[1m"<<c<<"\033[0m";
+    else
+    cout<<c;
+}
+
 void clear(){
     #ifdef _WIN32
     system("cls");
     #elif defined __linux__
     system("clear");
     #endif
+}
+
+void restart(){
+    char choice;
+    cout<<endl<<"Restart Game? (y/n)"<<endl;
+    cin>>choice;
+    if(choice=='y'){
+    for(int i=0;i<10;i++)
+        arr[i]=i+'0';
+    clear();
+    main();
+    }
+    else if(choice=='n')
+    exit(0);
 }
 
 int checker(int &i){
@@ -31,22 +56,22 @@ int checker(int &i){
   else if((arr[7] == arr[8]) && (arr[8] == arr[9]))
     return 1;
   if(i==9){
-    cout<<"It's a tie!!"<<endl;
-    exit(0);
+    cout<<"\033[93mIt's a tie!!\033[0m"<<endl;
+    restart();
   }
 }
 
 void printGrid(int& i){
   clear();
-  cout<<"Player 1: X   vs   Player 2: O"<<endl<<endl;
+  cout<<"Player 1: \033[36m\033[1mX\033[0m   vs   Player 2: \033[32m\033[1mO\033[0m"<<endl<<endl;
   cout<<"     |     |     "<<endl;
-  cout<<"  "<<arr[1]<<"  |  "<<arr[2]<<"  |  "<<arr[3]<<"  "<<endl;
+  cout<<"  ";printc(arr[1]);cout<<"  |  ";printc(arr[2]);cout<<"  |  ";printc(arr[3]);cout<<"  "<<endl;
   cout<<"_____|_____|_____"<<endl;
   cout<<"     |     |     "<<endl;
-  cout<<"  "<<arr[4]<<"  |  "<<arr[5]<<"  |  "<<arr[6]<<"  "<<endl;
+  cout<<"  ";printc(arr[4]);cout<<"  |  ";printc(arr[5]);cout<<"  |  ";printc(arr[6]);cout<<"  "<<endl;
   cout<<"_____|_____|_____"<<endl;
   cout<<"     |     |     "<<endl;
-  cout<<"  "<<arr[7]<<"  |  "<<arr[8]<<"  |  "<<arr[9]<<"  "<<endl;
+  cout<<"  ";printc(arr[7]);cout<<"  |  ";printc(arr[8]);cout<<"  |  ";printc(arr[9]);cout<<"  "<<endl;
   cout<<"     |     |     "<<endl<<endl;
   i++;
 }
@@ -134,8 +159,8 @@ void gameManager(int& i,int mode){
     printGrid(i);
     if(i>2){
         if(checker(i)==1){
-            cout<<"Player "<<((i%2==0)?"2":"1")<<" Won!!"<<endl;
-            exit(0);
+            cout<<"\033[91mPlayer "<<((i%2==0)?"2":"1")<<" Won!!\033[0m"<<endl;
+            restart();
         }
     }
     if(mode==1){
@@ -191,13 +216,25 @@ void gameManager(int& i,int mode){
 int main()
 {
     int choice,mode,i=-1;
-    cout<<"Welcome to Tic-Tac-Toe"<<endl<<endl;
+    clear();
+    auto logo=R"(
+     _______ _        _______           _______
+    |__   __(_)      |__   __|         |__   __|
+       | |   _  ___     | | __ _  ___     | | ___   ___
+       | |  | |/ __|    | |/ _` |/ __|    | |/ _ \ / _ \
+       | |  | | (__     | | (_| | (__     | | (_) |  __/
+       |_|  |_|\___|    |_|\__,_|\___|    |_|\___/ \___|
+
+    )";
+    cout<<"\033[93m"<<logo<<"\033[0m"<<endl;
     do{
     cout<<"Press 1 to play, 0 to exit: "<<endl;
     cin>>choice;
+    clear();
+    cout<<"\033[93m"<<logo<<"\033[0m"<<endl;
     switch(choice){
     case 1:
-       cout<<"1)Human vs Human"<<endl<<"2)Human vs PC"<<endl;
+       cout<<"Choose Mode:"<<endl<<"1)Human vs Human"<<endl<<"2)Human vs PC"<<endl;
        cin>>mode;
        gameManager(i,mode);
        break;
