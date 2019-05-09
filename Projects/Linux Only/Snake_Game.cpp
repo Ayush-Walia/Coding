@@ -117,8 +117,10 @@ void initializeGame(){
        else{
         clear();
         printw("Save File not Found!!\n\n");
+        break;
        }
     case '3':
+        endwin();
         exit(0);
         break;
     default:
